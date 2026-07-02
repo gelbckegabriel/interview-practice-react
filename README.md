@@ -1,36 +1,38 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Interview Practice
+
+A collection of self-contained full-stack coding challenges for practicing technical interviews, built with Next.js.
+
+Each challenge lives at its own route (`/challenge-XXX`) and ships with a brief — context, requirements, constraints, expected outcome, and optional bonus goals — followed by a starter page you replace with your own implementation. The goal is to simulate a take-home or live-coding interview: read the brief, research what you need, and build a working solution without being handed the answer.
 
 ## Getting Started
 
-First, run the development server:
+Run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to see the list of available challenges.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## How a challenge works
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Pick a challenge from the home page (`app/page.tsx`).
+2. Open its brief (`app/challenge-XXX/page.tsx`) — expand "Challenge Brief" for context, requirements, constraints, and what will be evaluated.
+3. Replace the placeholder solution section in that same file (and add any supporting routes, e.g. `app/api/.../route.ts`) with your implementation.
+4. Verify against the brief's "Expected Outcome" checklist before considering it done.
 
-## Learn More
+## Adding a new challenge
 
-To learn more about Next.js, take a look at the following resources:
+1. Create a new folder under `app/` (e.g. `app/challenge-002/`) with its own `page.tsx`.
+2. Write a brief following the structure used in `app/challenge-001/page.tsx` (Context, Requirements, Constraints, Expected Outcome, optional Bonus).
+3. Add an entry to the `challenges` array in `app/page.tsx` so it shows up on the home page.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Note on this Next.js version
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+This project pins a Next.js version with breaking changes relative to older docs and training data — APIs, conventions, and file structure may differ from what you expect. Check `node_modules/next/dist/docs/` before relying on prior Next.js knowledge.
 
-## Deploy on Vercel
+## Stack
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [Next.js](https://nextjs.org) (App Router)
+- TypeScript
+- Tailwind CSS
