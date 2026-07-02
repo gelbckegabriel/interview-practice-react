@@ -8,7 +8,27 @@ const challenges = [
     difficulty: "Intermediate",
     href: "/challenge-001",
   },
+  {
+    id: "002",
+    title: "Kanban Task Board",
+    type: "Frontend",
+    difficulty: "Intermediate",
+    href: "/challenge-002",
+  },
+  {
+    id: "003",
+    title: "Weather Forecast Dashboard",
+    type: "Fullstack",
+    difficulty: "Intermediate",
+    href: "/challenge-003",
+  },
 ];
+
+const typeStyles: Record<string, string> = {
+  Fullstack: "bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-400",
+  Frontend: "bg-emerald-50 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400",
+  Backend: "bg-purple-50 dark:bg-purple-950 text-purple-600 dark:text-purple-400",
+};
 
 export default function Home() {
   return (
@@ -38,7 +58,7 @@ export default function Home() {
                   </p>
                 </div>
                 <div className="flex items-center gap-2 text-xs">
-                  <span className="rounded-full bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-400 px-2.5 py-1">
+                  <span className={`rounded-full px-2.5 py-1 ${typeStyles[c.type]}`}>
                     {c.type}
                   </span>
                   <span className="rounded-full bg-amber-50 dark:bg-amber-950 text-amber-600 dark:text-amber-400 px-2.5 py-1">
