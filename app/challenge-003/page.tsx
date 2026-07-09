@@ -11,14 +11,14 @@ interface ICities {
   population: number;
   latitude: number;
   longitude: number;
+  timezone: string;
 }
 
 export default function Challenge003() {
   const [city, setCity] = useState<string>("");
   const [apiCities, setApiCities] = useState<ICities[]>([]);
 
-  const findCityCoordinates = (city: string) => {
-    console.log(`search: ${city}`);
+  const getCityCoordinates = (city: string) => {
     fetch(`api/open-meteo/${city}`).then(async (response) => {
       const data = await response.json();
 
@@ -27,13 +27,18 @@ export default function Challenge003() {
         region: result.admin1,
         country: result.country,
         countryCode: result.country_code,
+        population: result.population,
         latitude: result.latitude,
         longitude: result.longitude,
-        population: result.population,
+        timezone: result.timezone,
       }));
 
       setApiCities(cities);
     });
+  };
+
+  const getCityForecast = (latitude: number, longitude: number, timezone: string) => {
+    console.log(`City: ${city} | latitude: ${latitude} | longitude: ${longitude} | timezone: ${timezone}`);
   };
 
   return (
@@ -202,13 +207,13 @@ export default function Challenge003() {
                 onChange={(e) => setCity(e.target.value)}
                 onKeyDown={(e) => {
                   if (e.key === "Enter") {
-                    findCityCoordinates(city);
+                    getCityCoordinates(city);
                   }
                 }}
               />
               <button
                 className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg transition-colors hover:cursor-pointer"
-                onClick={() => findCityCoordinates(city)}
+                onClick={() => getCityCoordinates(city)}
               >
                 Search
               </button>
@@ -218,8 +223,12 @@ export default function Challenge003() {
             <div className="my-8 flex flex-col gap-4">
               {apiCities != null && (
                 <>
-                  {apiCities.map((city) => (
-                    <div className="flex gap-4 w-full p-4 bg-white/10 rounded-lg hover:scale-105 transition-all duration-200 cursor-pointer">
+                  {apiCities.map((city, index) => (
+                    <div
+                      key={`${city.countryCode}-${city.region}-${index}`}
+                      className="flex gap-4 w-full p-4 bg-white/10 rounded-lg hover:scale-105 transition-all duration-200 cursor-pointer"
+                      onClick={() => getCityForecast(city.latitude, city.longitude, city.timezone)}
+                    >
                       <img src={`https://flagsapi.com/${city.countryCode}/flat/64.png`} className="rounded-[50%]" />
                       <div className="flex flex-col items-baseline ">
                         <span className="text-lg text-zinc-200 dark:text-zinc-300 -mb-1">
