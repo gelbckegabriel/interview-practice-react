@@ -7,6 +7,7 @@ const challenges = [
     type: "Fullstack",
     difficulty: "Intermediate",
     href: "/challenge-001",
+    completed: true,
   },
   {
     id: "002",
@@ -14,6 +15,7 @@ const challenges = [
     type: "Frontend",
     difficulty: "Intermediate",
     href: "/challenge-002",
+    completed: false,
   },
   {
     id: "003",
@@ -21,6 +23,7 @@ const challenges = [
     type: "Fullstack",
     difficulty: "Intermediate",
     href: "/challenge-003",
+    completed: false,
   },
 ];
 
@@ -34,12 +37,9 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-zinc-50 dark:bg-zinc-950 px-6 py-16 font-sans">
       <div className="max-w-2xl mx-auto">
-        <h1 className="text-3xl font-bold text-zinc-900 dark:text-zinc-50 mb-2">
-          Interview Practice
-        </h1>
+        <h1 className="text-3xl font-bold text-zinc-900 dark:text-zinc-50 mb-2">Interview Practice</h1>
         <p className="text-zinc-500 dark:text-zinc-400 mb-12 text-sm">
-          Full-stack challenges for intermediate developers. No spoilers — read
-          the brief, research, build.
+          Full-stack challenges for intermediate developers. No spoilers — read the brief, research, build.
         </p>
 
         <ul className="flex flex-col gap-4">
@@ -50,17 +50,14 @@ export default function Home() {
                 className="flex items-center justify-between rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 px-5 py-4 hover:border-zinc-400 dark:hover:border-zinc-600 transition-colors"
               >
                 <div>
-                  <span className="text-xs font-mono text-zinc-400 dark:text-zinc-500">
-                    #{c.id}
-                  </span>
-                  <p className="text-zinc-900 dark:text-zinc-100 font-medium mt-0.5">
-                    {c.title}
-                  </p>
+                  <div className="flex gap-8 text-xs font-mono text-zinc-400 dark:text-zinc-500">
+                    <span className="">#{c.id}</span>
+                    {c.completed && <span className="filter saturate-200 hue-rotate-180">✔️ Completed</span>}
+                  </div>
+                  <p className="text-zinc-900 dark:text-zinc-100 font-medium mt-0.5">{c.title}</p>
                 </div>
                 <div className="flex items-center gap-2 text-xs">
-                  <span className={`rounded-full px-2.5 py-1 ${typeStyles[c.type]}`}>
-                    {c.type}
-                  </span>
+                  <span className={`rounded-full px-2.5 py-1 ${typeStyles[c.type]}`}>{c.type}</span>
                   <span className="rounded-full bg-amber-50 dark:bg-amber-950 text-amber-600 dark:text-amber-400 px-2.5 py-1">
                     {c.difficulty}
                   </span>
