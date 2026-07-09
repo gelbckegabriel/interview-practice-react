@@ -7,6 +7,7 @@ interface ICities {
   name: string;
   region: string;
   country: string;
+  countryCode: string;
   population: number;
   latitude: number;
   longitude: number;
@@ -25,6 +26,7 @@ export default function Challenge003() {
         name: result.name,
         region: result.admin1,
         country: result.country,
+        countryCode: result.country_code,
         latitude: result.latitude,
         longitude: result.longitude,
         population: result.population,
@@ -213,7 +215,26 @@ export default function Challenge003() {
             </div>
 
             {/* Cities Found */}
-            <div></div>
+            <div className="my-8 flex flex-col gap-4">
+              {apiCities != null && (
+                <>
+                  {apiCities.map((city) => (
+                    <div className="flex gap-4 w-full p-4 bg-white/10 rounded-lg hover:scale-105 transition-all duration-200 cursor-pointer">
+                      <img src={`https://flagsapi.com/${city.countryCode}/flat/64.png`} className="rounded-[50%]" />
+                      <div className="flex flex-col items-baseline ">
+                        <span className="text-lg text-zinc-200 dark:text-zinc-300 -mb-1">
+                          {city.name}, {city.region}
+                        </span>
+                        <span className="text-md text-zinc-300 dark:text-zinc-400">{city.country}</span>
+                        <span className="text-xs text-zinc-400 dark:text-zinc-500">
+                          Population: {city.population === undefined ? "???" : city.population}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </>
+              )}
+            </div>
           </div>
         </div>
       </main>
