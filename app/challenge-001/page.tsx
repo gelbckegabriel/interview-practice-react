@@ -81,30 +81,30 @@ export default function Challenge001() {
 
   return (
     <>
-      <main className="min-h-screen bg-zinc-50 dark:bg-zinc-950 px-6 py-16 font-sans">
+      <main className="min-h-screen bg-ink-50 dark:bg-ink-950 px-6 py-16 font-sans">
         <div className="max-w-2xl mx-auto">
-          <Link href="/" className="text-xs text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300 mb-8 inline-block">
+          <Link href="/" className="text-xs text-ink-400 hover:text-ink-600 dark:hover:text-ink-300 mb-8 inline-block">
             ← Back to challenges
           </Link>
 
           <div className="flex items-center gap-3 mb-6">
-            <span className="font-mono text-sm text-zinc-400">#001</span>
-            <span className="text-xs rounded-full bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-400 px-2.5 py-1">
+            <span className="font-mono text-sm text-ink-400">#001</span>
+            <span className="text-xs rounded-full bg-primary-50 dark:bg-primary-950 text-primary-600 dark:text-primary-400 px-2.5 py-1">
               Fullstack
             </span>
-            <span className="text-xs rounded-full bg-amber-50 dark:bg-amber-950 text-amber-600 dark:text-amber-400 px-2.5 py-1">
+            <span className="text-xs rounded-full bg-warning-50 dark:bg-warning-950 text-warning-600 dark:text-warning-400 px-2.5 py-1">
               Intermediate
             </span>
           </div>
 
-          <h1 className="text-2xl font-bold text-zinc-900 dark:text-zinc-50 mb-8">GitHub User Explorer</h1>
+          <h1 className="text-2xl font-bold text-ink-900 dark:text-ink-50 mb-8">GitHub User Explorer</h1>
 
           {/* Challenge */}
-          <details className="group mb-12 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900" open>
-            <summary className="flex cursor-pointer items-center justify-between px-5 py-4 text-sm font-medium text-zinc-700 dark:text-zinc-300 select-none [&::-webkit-details-marker]:hidden">
+          <details className="group mb-12 rounded-lg border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900" open>
+            <summary className="flex cursor-pointer items-center justify-between px-5 py-4 text-sm font-medium text-ink-700 dark:text-ink-300 select-none [&::-webkit-details-marker]:hidden">
               <span>Challenge Brief</span>
               <svg
-                className="h-4 w-4 text-zinc-400 transition-transform group-open:rotate-180"
+                className="h-4 w-4 text-ink-400 transition-transform group-open:rotate-180"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
                 fill="currentColor"
@@ -117,10 +117,10 @@ export default function Challenge001() {
               </svg>
             </summary>
 
-            <section className="px-5 pb-6 border-t border-zinc-100 dark:border-zinc-800 space-y-8 text-sm leading-7 pt-6">
+            <section className="px-5 pb-6 border-t border-ink-100 dark:border-ink-800 space-y-8 text-sm leading-7 pt-6">
               <div>
-                <h2 className="text-base font-semibold text-zinc-800 dark:text-zinc-200 mb-3">Context</h2>
-                <p className="text-zinc-600 dark:text-zinc-400">
+                <h2 className="text-base font-semibold text-ink-800 dark:text-ink-200 mb-3">Context</h2>
+                <p className="text-ink-600 dark:text-ink-400">
                   You are building a small internal tool for a team that wants to look up GitHub profiles and browse a
                   user&rsquo;s public repositories without leaving their intranet. The tool must be fast, handle edge cases
                   gracefully, and not require a GitHub API token (public endpoints only).
@@ -128,8 +128,8 @@ export default function Challenge001() {
               </div>
 
               <div>
-                <h2 className="text-base font-semibold text-zinc-800 dark:text-zinc-200 mb-3">Requirements</h2>
-                <ol className="list-decimal list-outside ml-5 space-y-3 text-zinc-600 dark:text-zinc-400">
+                <h2 className="text-base font-semibold text-ink-800 dark:text-ink-200 mb-3">Requirements</h2>
+                <ol className="list-decimal list-outside ml-5 space-y-3 text-ink-600 dark:text-ink-400">
                   <li>
                     Create a <strong>search input</strong> that accepts a GitHub username. Submitting it should display that
                     user&rsquo;s public profile information: avatar, display name, bio, follower / following counts, and public
@@ -161,8 +161,8 @@ export default function Challenge001() {
               </div>
 
               <div>
-                <h2 className="text-base font-semibold text-zinc-800 dark:text-zinc-200 mb-3">Constraints</h2>
-                <ul className="list-disc list-outside ml-5 space-y-2 text-zinc-600 dark:text-zinc-400">
+                <h2 className="text-base font-semibold text-ink-800 dark:text-ink-200 mb-3">Constraints</h2>
+                <ul className="list-disc list-outside ml-5 space-y-2 text-ink-600 dark:text-ink-400">
                   <li>
                     No third-party data-fetching libraries (no SWR, React Query, Axios, etc.). Use the native <code>fetch</code>{" "}
                     API.
@@ -176,12 +176,12 @@ export default function Challenge001() {
               </div>
 
               <div>
-                <h2 className="text-base font-semibold text-zinc-800 dark:text-zinc-200 mb-3">Expected Outcome</h2>
-                <p className="text-zinc-600 dark:text-zinc-400 mb-3">
+                <h2 className="text-base font-semibold text-ink-800 dark:text-ink-200 mb-3">Expected Outcome</h2>
+                <p className="text-ink-600 dark:text-ink-400 mb-3">
                   A working page at <code>/challenge-001</code> (this page, which you will replace with your implementation) that
                   satisfies all requirements above. The evaluator will:
                 </p>
-                <ul className="list-disc list-outside ml-5 space-y-2 text-zinc-600 dark:text-zinc-400">
+                <ul className="list-disc list-outside ml-5 space-y-2 text-ink-600 dark:text-ink-400">
                   <li>
                     Search for a real GitHub user (e.g. <code>torvalds</code>) and verify profile data is accurate.
                   </li>
@@ -192,8 +192,8 @@ export default function Challenge001() {
               </div>
 
               <div>
-                <h2 className="text-base font-semibold text-zinc-800 dark:text-zinc-200 mb-3">Bonus (optional)</h2>
-                <ul className="list-disc list-outside ml-5 space-y-2 text-zinc-600 dark:text-zinc-400">
+                <h2 className="text-base font-semibold text-ink-800 dark:text-ink-200 mb-3">Bonus (optional)</h2>
+                <ul className="list-disc list-outside ml-5 space-y-2 text-ink-600 dark:text-ink-400">
                   <li>
                     Persist the last searched username in the URL as a query parameter so the page is shareable and survives a
                     refresh.
@@ -205,8 +205,8 @@ export default function Challenge001() {
                 </ul>
               </div>
 
-              <div className="border-t border-zinc-200 dark:border-zinc-800 pt-6">
-                <p className="text-xs text-zinc-400 dark:text-zinc-500">
+              <div className="border-t border-ink-200 dark:border-ink-800 pt-6">
+                <p className="text-xs text-ink-400 dark:text-ink-500">
                   Useful starting points (no answers here, just doors): <strong>GitHub REST API docs</strong> &rarr; users &amp;
                   repositories endpoints &nbsp;|&nbsp; <strong>Next.js docs</strong> &rarr; Route Handlers, Server vs Client
                   Components &nbsp;|&nbsp; <strong>MDN</strong> &rarr; fetch, AbortController
@@ -220,7 +220,7 @@ export default function Challenge001() {
             {/* Search Input */}
             <div className="flex gap-3 items-center mb-4">
               <input
-                className="bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-700 placeholder:text-zinc-400 dark:placeholder:text-zinc-500 text-zinc-900 dark:text-zinc-100 focus:ring-2 focus:ring-blue-500 focus:outline-none rounded-lg px-4 py-2 w-full"
+                className="bg-white dark:bg-ink-900 border border-ink-300 dark:border-ink-700 placeholder:text-ink-400 dark:placeholder:text-ink-500 text-ink-900 dark:text-ink-100 focus:ring-2 focus:ring-primary-500 focus:outline-none rounded-lg px-4 py-2 w-full"
                 type="text"
                 placeholder="Enter GitHub username..."
                 onChange={(e) => setUsername(e.target.value)}
@@ -231,7 +231,7 @@ export default function Challenge001() {
                 }}
               />
               <button
-                className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg transition-colors hover:cursor-pointer"
+                className="bg-primary-500 hover:bg-primary-600 text-white font-medium py-2 px-4 rounded-lg transition-colors hover:cursor-pointer"
                 onClick={() => handleFindUser(username)}
               >
                 Search
@@ -241,21 +241,21 @@ export default function Challenge001() {
             {/* User Profile */}
             <div>
               {userData && (
-                <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg p-6">
+                <div className="bg-white dark:bg-ink-900 border border-ink-200 dark:border-ink-800 rounded-lg p-6">
                   <div className="flex items-center gap-4 mb-6">
                     {/* Profile Picture */}
                     <img src={userData.avatar_url} alt={`${userData.name}'s avatar`} className="w-24 h-24 rounded-full mb-4" />
 
                     {/* User Information */}
                     <div>
-                      <h2 className="text-xl font-bold text-zinc-900 dark:text-zinc-50">{userData.name}</h2>
-                      <p className="text-zinc-600 dark:text-zinc-400">{userData.bio}</p>
-                      <p className="text-zinc-600 dark:text-zinc-400">
+                      <h2 className="text-xl font-bold text-ink-900 dark:text-ink-50">{userData.name}</h2>
+                      <p className="text-ink-600 dark:text-ink-400">{userData.bio}</p>
+                      <p className="text-ink-600 dark:text-ink-400">
                         Followers: {userData.followers} | Following: {userData.following} | Public Repos: {userData.public_repos}
                       </p>
                       <br />
                       <button
-                        className="bg-blue-700 hover:bg-blue-800 text-white font-small py-2 px-4 rounded-lg hover:cursor-pointer"
+                        className="bg-primary-700 hover:bg-primary-800 text-white font-small py-2 px-4 rounded-lg hover:cursor-pointer"
                         onClick={() => handleViewRepos()}
                       >
                         View Repos
@@ -271,11 +271,11 @@ export default function Challenge001() {
               <div className="mt-6">
                 <>
                   <div className="flex justify-between my-4">
-                    <h3 className="text-lg font-bold text-zinc-900 dark:text-zinc-50 mt-1">Repositories</h3>
+                    <h3 className="text-lg font-bold text-ink-900 dark:text-ink-50 mt-1">Repositories</h3>
 
                     {/* Filter */}
                     <input
-                      className="bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-700 placeholder:text-zinc-400 dark:placeholder:text-zinc-500 text-zinc-900 dark:text-zinc-100 focus:ring-2 focus:ring-blue-500 focus:outline-none rounded-lg px-4 py-2 w-[50%]"
+                      className="bg-white dark:bg-ink-900 border border-ink-300 dark:border-ink-700 placeholder:text-ink-400 dark:placeholder:text-ink-500 text-ink-900 dark:text-ink-100 focus:ring-2 focus:ring-primary-500 focus:outline-none rounded-lg px-4 py-2 w-[50%]"
                       type="text"
                       placeholder="Search by name..."
                       onChange={(e) => setFilterText(e.target.value)}
@@ -297,12 +297,12 @@ export default function Challenge001() {
                     {displayedRepos.map((repo) => (
                       <li
                         key={repo.name}
-                        className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg p-4"
+                        className="bg-white dark:bg-ink-900 border border-ink-200 dark:border-ink-800 rounded-lg p-4"
                       >
-                        <h4 className="text-md font-bold text-zinc-900 dark:text-zinc-50">{repo.name}</h4>
-                        <p className="text-zinc-600 dark:text-zinc-400">{repo.description}</p>
-                        <p className="text-zinc-600 dark:text-zinc-400">Language: {repo.language}</p>
-                        <p className="text-zinc-600 dark:text-zinc-400">Stars: {repo.stargazers_count}</p>
+                        <h4 className="text-md font-bold text-ink-900 dark:text-ink-50">{repo.name}</h4>
+                        <p className="text-ink-600 dark:text-ink-400">{repo.description}</p>
+                        <p className="text-ink-600 dark:text-ink-400">Language: {repo.language}</p>
+                        <p className="text-ink-600 dark:text-ink-400">Stars: {repo.stargazers_count}</p>
                       </li>
                     ))}
                   </ul>

@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import ModalComponent from "../shared/modal/page";
+import { RevolvingDot } from "react-loader-spinner";
 
 interface ICities {
   name: string;
@@ -15,62 +17,76 @@ interface ICities {
 }
 
 export default function Challenge003() {
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [city, setCity] = useState<string>("");
   const [apiCities, setApiCities] = useState<ICities[]>([]);
 
+  // Modal
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [modalTitle, setModalTitle] = useState<string>("");
+
   const getCityCoordinates = (city: string) => {
-    fetch(`api/open-meteo/coordinates/${city}`).then(async (response) => {
-      const data = await response.json();
+    setIsLoading(true);
 
-      const cities: ICities[] = data.results.map((result: any) => ({
-        name: result.name,
-        region: result.admin1,
-        country: result.country,
-        countryCode: result.country_code,
-        population: result.population,
-        latitude: result.latitude,
-        longitude: result.longitude,
-        timezone: result.timezone,
-      }));
+    fetch(`api/open-meteo/coordinates/${city}`)
+      .then(async (response) => {
+        const data = await response.json();
 
-      setApiCities(cities);
-    });
+        const cities: ICities[] = data.results.map((result: any) => ({
+          name: result.name,
+          region: result.admin1,
+          country: result.country,
+          countryCode: result.country_code,
+          population: result.population,
+          latitude: result.latitude,
+          longitude: result.longitude,
+          timezone: result.timezone,
+        }));
+
+        setApiCities(cities);
+      })
+      .finally(() => setIsLoading(false));
   };
 
-  const getCityForecast = (latitude: number, longitude: number, timezone: string) => {
-    console.log(`City: ${city} | latitude: ${latitude} | longitude: ${longitude} | timezone: ${timezone}`);
-    fetch(`api/open-meteo/forecast?latitude=${latitude}&longitude=${longitude}`).then(async (response) => {
-      const data = await response.json();
-      console.log(data);
-    });
+  const getCityForecast = (cityIndex: number) => {
+    // Modal Information
+    setModalTitle(`Forecast for ${apiCities[cityIndex].name}, ${apiCities[cityIndex].region}.`);
+
+    // API Fetch
+    fetch(`api/open-meteo/forecast?latitude=${apiCities[cityIndex].latitude}&longitude=${apiCities[cityIndex].longitude}`)
+      .then(async (response) => {
+        const data = await response.json();
+        console.log(data);
+      })
+      .finally(() => setIsModalOpen(true));
   };
 
   return (
     <>
-      <main className="min-h-screen bg-zinc-50 dark:bg-zinc-950 px-6 py-16 font-sans">
+      <main className="min-h-screen bg-ink-50 dark:bg-ink-950 px-6 py-16 font-sans">
         <div className="max-w-2xl mx-auto">
-          <Link href="/" className="text-xs text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300 mb-8 inline-block">
+          <Link href="/" className="text-xs text-ink-400 hover:text-ink-600 dark:hover:text-ink-300 mb-8 inline-block">
             ← Back to challenges
           </Link>
 
           <div className="flex items-center gap-3 mb-6">
-            <span className="font-mono text-sm text-zinc-400">#003</span>
-            <span className="text-xs rounded-full bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-400 px-2.5 py-1">
+            <span className="font-mono text-sm text-ink-400">#003</span>
+            <span className="text-xs rounded-full bg-primary-50 dark:bg-primary-950 text-primary-600 dark:text-primary-400 px-2.5 py-1">
               Fullstack
             </span>
-            <span className="text-xs rounded-full bg-amber-50 dark:bg-amber-950 text-amber-600 dark:text-amber-400 px-2.5 py-1">
+            <span className="text-xs rounded-full bg-warning-50 dark:bg-warning-950 text-warning-600 dark:text-warning-400 px-2.5 py-1">
               Intermediate
             </span>
           </div>
 
-          <h1 className="text-2xl font-bold text-zinc-900 dark:text-zinc-50 mb-8">Weather Forecast Dashboard</h1>
+          <h1 className="text-2xl font-bold text-ink-900 dark:text-ink-50 mb-8">Weather Forecast Dashboard</h1>
 
           {/* Challenge */}
-          <details className="group mb-12 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900" open>
-            <summary className="flex cursor-pointer items-center justify-between px-5 py-4 text-sm font-medium text-zinc-700 dark:text-zinc-300 select-none [&::-webkit-details-marker]:hidden">
+          <details className="group mb-12 rounded-lg border border-ink-200 dark:border-ink-800 bg-white dark:bg-ink-900" open>
+            <summary className="flex cursor-pointer items-center justify-between px-5 py-4 text-sm font-medium text-ink-700 dark:text-ink-300 select-none [&::-webkit-details-marker]:hidden">
               <span>Challenge Brief</span>
               <svg
-                className="h-4 w-4 text-zinc-400 transition-transform group-open:rotate-180"
+                className="h-4 w-4 text-ink-400 transition-transform group-open:rotate-180"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
                 fill="currentColor"
@@ -83,10 +99,10 @@ export default function Challenge003() {
               </svg>
             </summary>
 
-            <section className="px-5 pb-6 border-t border-zinc-100 dark:border-zinc-800 space-y-8 text-sm leading-7 pt-6">
+            <section className="px-5 pb-6 border-t border-ink-100 dark:border-ink-800 space-y-8 text-sm leading-7 pt-6">
               <div>
-                <h2 className="text-base font-semibold text-zinc-800 dark:text-zinc-200 mb-3">Context</h2>
-                <p className="text-zinc-600 dark:text-zinc-400">
+                <h2 className="text-base font-semibold text-ink-800 dark:text-ink-200 mb-3">Context</h2>
+                <p className="text-ink-600 dark:text-ink-400">
                   A travel-planning startup wants a small internal dashboard so employees can check the current weather and an
                   upcoming forecast for any city in the world. Ops does not want to manage API keys or secrets for an internal
                   tool, so this must run against a free, keyless public weather API.
@@ -94,8 +110,8 @@ export default function Challenge003() {
               </div>
 
               <div>
-                <h2 className="text-base font-semibold text-zinc-800 dark:text-zinc-200 mb-3">Requirements</h2>
-                <ol className="list-decimal list-outside ml-5 space-y-3 text-zinc-600 dark:text-zinc-400">
+                <h2 className="text-base font-semibold text-ink-800 dark:text-ink-200 mb-3">Requirements</h2>
+                <ol className="list-decimal list-outside ml-5 space-y-3 text-ink-600 dark:text-ink-400">
                   <li>
                     Provide a <strong>search input</strong> for a city name. Resolve the name to coordinates using the{" "}
                     <strong>Open-Meteo Geocoding API</strong>. If the search matches more than one place (e.g. &ldquo;Paris&rdquo;
@@ -136,8 +152,8 @@ export default function Challenge003() {
               </div>
 
               <div>
-                <h2 className="text-base font-semibold text-zinc-800 dark:text-zinc-200 mb-3">Constraints</h2>
-                <ul className="list-disc list-outside ml-5 space-y-2 text-zinc-600 dark:text-zinc-400">
+                <h2 className="text-base font-semibold text-ink-800 dark:text-ink-200 mb-3">Constraints</h2>
+                <ul className="list-disc list-outside ml-5 space-y-2 text-ink-600 dark:text-ink-400">
                   <li>
                     No third-party data-fetching libraries (no SWR, React Query, Axios, etc.). Use the native <code>fetch</code>{" "}
                     API.
@@ -154,12 +170,12 @@ export default function Challenge003() {
               </div>
 
               <div>
-                <h2 className="text-base font-semibold text-zinc-800 dark:text-zinc-200 mb-3">Expected Outcome</h2>
-                <p className="text-zinc-600 dark:text-zinc-400 mb-3">
+                <h2 className="text-base font-semibold text-ink-800 dark:text-ink-200 mb-3">Expected Outcome</h2>
+                <p className="text-ink-600 dark:text-ink-400 mb-3">
                   A working page at <code>/challenge-003</code> (this page, which you will replace with your implementation) that
                   satisfies all requirements above. The evaluator will:
                 </p>
-                <ul className="list-disc list-outside ml-5 space-y-2 text-zinc-600 dark:text-zinc-400">
+                <ul className="list-disc list-outside ml-5 space-y-2 text-ink-600 dark:text-ink-400">
                   <li>
                     Search for a real city (e.g. <code>Toronto</code>) and verify current conditions and the forecast look
                     plausible.
@@ -178,8 +194,8 @@ export default function Challenge003() {
               </div>
 
               <div>
-                <h2 className="text-base font-semibold text-zinc-800 dark:text-zinc-200 mb-3">Bonus (optional)</h2>
-                <ul className="list-disc list-outside ml-5 space-y-2 text-zinc-600 dark:text-zinc-400">
+                <h2 className="text-base font-semibold text-ink-800 dark:text-ink-200 mb-3">Bonus (optional)</h2>
+                <ul className="list-disc list-outside ml-5 space-y-2 text-ink-600 dark:text-ink-400">
                   <li>Celsius / Fahrenheit toggle.</li>
                   <li>
                     A &ldquo;use my location&rdquo; button using the browser Geolocation API, reverse-geocoded through Open-Meteo.
@@ -189,8 +205,8 @@ export default function Challenge003() {
                 </ul>
               </div>
 
-              <div className="border-t border-zinc-200 dark:border-zinc-800 pt-6">
-                <p className="text-xs text-zinc-400 dark:text-zinc-500">
+              <div className="border-t border-ink-200 dark:border-ink-800 pt-6">
+                <p className="text-xs text-ink-400 dark:text-ink-500">
                   Useful starting points (no answers here, just doors): <strong>Open-Meteo docs</strong> &rarr;{" "}
                   <code>open-meteo.com/en/docs</code> and <code>open-meteo.com/en/docs/geocoding-api</code> (free, no key
                   required) &nbsp;|&nbsp; <strong>Next.js docs</strong> &rarr; Route Handlers, Route Segment Config &nbsp;|&nbsp;{" "}
@@ -202,11 +218,26 @@ export default function Challenge003() {
           </details>
 
           {/* Solution */}
-          <div className="mb-12 rounded-lg border border-dashed border-zinc-300 dark:border-zinc-700 bg-white/50 dark:bg-zinc-900/50 p-10 text-center">
+          <div className="relative mb-12 rounded-lg border border-dashed border-ink-300 dark:border-ink-700 bg-white/50 dark:bg-ink-900/50 p-10 text-center">
+            {/* Loader */}
+            {isLoading && (
+              <div className="absolute inset-0 w-full h-full flex items-center justify-center backdrop-blur-sm bg-black/40 z-10">
+                <RevolvingDot
+                  visible={true}
+                  height="80"
+                  width="80"
+                  color="#fff"
+                  ariaLabel="revolving-dot-loading"
+                  wrapperStyle={{}}
+                  wrapperClass=""
+                />
+              </div>
+            )}
+
             {/* Search Bar */}
             <div className="flex gap-4 w-full items-center justify-center">
               <input
-                className="w-[80%] text-md p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white/30 rounded-md"
+                className="w-[80%] text-md p-2 focus:ring-2 focus:ring-primary-500 focus:outline-none bg-white/10 rounded-md"
                 type="text"
                 onChange={(e) => setCity(e.target.value)}
                 onKeyDown={(e) => {
@@ -216,7 +247,7 @@ export default function Challenge003() {
                 }}
               />
               <button
-                className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg transition-colors hover:cursor-pointer"
+                className="bg-primary-500 hover:bg-primary-600 text-white font-medium py-2 px-4 rounded-lg transition-colors hover:cursor-pointer"
                 onClick={() => getCityCoordinates(city)}
               >
                 Search
@@ -228,26 +259,33 @@ export default function Challenge003() {
               {apiCities != null && (
                 <>
                   {apiCities.map((city, index) => (
-                    <div
-                      key={`${city.countryCode}-${city.region}-${index}`}
-                      className="flex gap-4 w-full p-4 bg-white/10 rounded-lg hover:scale-105 transition-all duration-200 cursor-pointer"
-                      onClick={() => getCityForecast(city.latitude, city.longitude, city.timezone)}
-                    >
-                      <img src={`https://flagsapi.com/${city.countryCode}/flat/64.png`} className="rounded-[50%]" />
-                      <div className="flex flex-col items-baseline ">
-                        <span className="text-lg text-zinc-200 dark:text-zinc-300 -mb-1">
-                          {city.name}, {city.region}
-                        </span>
-                        <span className="text-md text-zinc-300 dark:text-zinc-400">{city.country}</span>
-                        <span className="text-xs text-zinc-400 dark:text-zinc-500">
-                          Population: {city.population === undefined ? "???" : city.population}
-                        </span>
+                    <>
+                      <div
+                        key={`${city.countryCode}-${city.region}-${index}`}
+                        className="flex gap-4 w-full p-4 bg-white/10 rounded-lg hover:scale-105 transition-all duration-200 cursor-pointer"
+                        onClick={() => getCityForecast(index)}
+                      >
+                        <img src={`https://flagsapi.com/${city.countryCode}/flat/64.png`} className="rounded-[50%]" />
+                        <div className="flex flex-col items-baseline ">
+                          <span className="text-lg text-ink-200 dark:text-ink-300 -mb-1">
+                            {city.name}, {city.region}
+                          </span>
+                          <span className="text-md text-ink-300 dark:text-ink-400">{city.country}</span>
+                          <span className="text-xs text-ink-400 dark:text-ink-500">
+                            Population: {city.population === undefined ? "???" : city.population}
+                          </span>
+                        </div>
                       </div>
-                    </div>
+                    </>
                   ))}
                 </>
               )}
             </div>
+
+            {/* Dialog - Forecast */}
+            <ModalComponent isOpen={isModalOpen} setIsOpen={setIsModalOpen} title={modalTitle}>
+              <p>test</p>
+            </ModalComponent>
           </div>
         </div>
       </main>
