@@ -18,16 +18,16 @@ export async function GET(request: NextRequest) {
     );
 
     if (res.status === 404) {
-      return NextResponse.json({ error: "User not found!" }, { status: 404 });
+      return NextResponse.json({ error: "City not found!" }, { status: 404 });
     }
 
     if (!res.ok) {
-      return NextResponse.json({ error: `GitHub API error: ${res.status}` }, { status: res.status });
+      return NextResponse.json({ error: `Weather API error: ${res.status}` }, { status: res.status });
     }
 
     const data = await res.json();
     return NextResponse.json(data, { status: 200 });
   } catch (err) {
-    return NextResponse.json({ error: "Network error while contacting GitHub" }, { status: 502 });
+    return NextResponse.json({ error: "Network error while contacting Weather Forecast API" }, { status: 502 });
   }
 }

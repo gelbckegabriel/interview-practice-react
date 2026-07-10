@@ -5,6 +5,7 @@ import { useState } from "react";
 import ModalComponent from "../shared/modal/page";
 import { BallTriangle, RevolvingDot } from "react-loader-spinner";
 import { CardComponent } from "../shared/card/page";
+import Error from "next/error";
 
 interface ICities {
   name: string;
@@ -57,6 +58,8 @@ export default function Challenge003() {
         }));
 
         setApiCities(cities);
+      }).catch(() => {
+        console.error("City not Found!");
       })
       .finally(() => setIsFetching(false));
   };
@@ -72,7 +75,7 @@ export default function Challenge003() {
       .then(async (response) => {
         const data = await response.json();
         const forecast: IForecast[] = [];
-        
+
         for (let i = 0; i < data.daily.temperature_2m_min.length; i++) {
           forecast.push({
             weatherCode: data.daily.weather_code[i],
@@ -80,9 +83,9 @@ export default function Challenge003() {
             maxTemperature: data.daily.temperature_2m_max[i],
             date: data.daily.time[i],
           });
-          
+
           setApiForecast(forecast);
-          console.log(forecast)
+          console.log(forecast);
         }
       })
       .finally(() => {
@@ -333,7 +336,11 @@ export default function Challenge003() {
                 {apiForecast.map((item, index) => (
                   <div className="w-full flex justify-between" key={item.date + index}>
                     {/* Weather Cards */}
-                    <CardComponent width="max-w-18%" imagePath={`https://rodrigokamada.github.io/openweathermap/images/${item.weatherCode}d_t.png`} title={item.date}>
+                    <CardComponent
+                      width="max-w-18%"
+                      imagePath={`https://rodrigokamada.github.io/openweathermap/images/${item.weatherCode}d_t.png`}
+                      title={item.date}
+                    >
                       <div className="flex flex-col">
                         <span className="text-ink-300">Min: {item.minTemperature} ºC</span>
                         <span className="text-ink-400">Max: {item.maxTemperature} ºC</span>
