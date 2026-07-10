@@ -19,7 +19,7 @@ export default function Challenge003() {
   const [apiCities, setApiCities] = useState<ICities[]>([]);
 
   const getCityCoordinates = (city: string) => {
-    fetch(`api/open-meteo/${city}`).then(async (response) => {
+    fetch(`api/open-meteo/coordinates/${city}`).then(async (response) => {
       const data = await response.json();
 
       const cities: ICities[] = data.results.map((result: any) => ({
@@ -39,6 +39,10 @@ export default function Challenge003() {
 
   const getCityForecast = (latitude: number, longitude: number, timezone: string) => {
     console.log(`City: ${city} | latitude: ${latitude} | longitude: ${longitude} | timezone: ${timezone}`);
+    fetch(`api/open-meteo/forecast?latitude=${latitude}&longitude=${longitude}`).then(async (response) => {
+      const data = await response.json();
+      console.log(data);
+    });
   };
 
   return (
