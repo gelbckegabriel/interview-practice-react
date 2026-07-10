@@ -10,9 +10,12 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m&forecast_days=5`, {
-      headers: { Accept: "application/json" },
-    });
+    const res = await fetch(
+      `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&forecast_days=5&daily=temperature_2m_max,temperature_2m_min,weather_code`,
+      {
+        headers: { Accept: "application/json" },
+      },
+    );
 
     if (res.status === 404) {
       return NextResponse.json({ error: "User not found!" }, { status: 404 });

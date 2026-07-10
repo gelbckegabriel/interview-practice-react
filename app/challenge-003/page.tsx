@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import ModalComponent from "../shared/modal/page";
 import { BallTriangle, RevolvingDot } from "react-loader-spinner";
+import { CardComponent } from "../shared/card/page";
 
 interface ICities {
   name: string;
@@ -16,6 +17,13 @@ interface ICities {
   timezone: string;
 }
 
+interface IForecast {
+  weatherCode: number;
+  minTemperature: number;
+  maxTemperature: number;
+  date: string;
+}
+
 export default function Challenge003() {
   // Loaders
   const [isFetching, setIsFetching] = useState<boolean>(false);
@@ -24,6 +32,7 @@ export default function Challenge003() {
   // City Information
   const [city, setCity] = useState<string>("");
   const [apiCities, setApiCities] = useState<ICities[]>([]);
+  const [apiForecast, setApiForecast] = useState<IForecast[]>([]);
 
   // Modal
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -62,7 +71,19 @@ export default function Challenge003() {
     fetch(`api/open-meteo/forecast?latitude=${apiCities[cityIndex].latitude}&longitude=${apiCities[cityIndex].longitude}`)
       .then(async (response) => {
         const data = await response.json();
-        console.log(data);
+        const forecast: IForecast[] = [];
+        
+        for (let i = 0; i < data.daily.temperature_2m_min.length; i++) {
+          forecast.push({
+            weatherCode: data.daily.weather_code[i],
+            minTemperature: data.daily.temperature_2m_min[i],
+            maxTemperature: data.daily.temperature_2m_max[i],
+            date: data.daily.time[i],
+          });
+          
+          setApiForecast(forecast);
+          console.log(forecast)
+        }
       })
       .finally(() => {
         setIsModalOpen(true);
@@ -307,8 +328,20 @@ export default function Challenge003() {
             </div>
 
             {/* Dialog - Forecast */}
-            <ModalComponent isOpen={isModalOpen} setIsOpen={setIsModalOpen} title={modalTitle}>
-              <p>test</p>
+            <ModalComponent isOpen={isModalOpen} setIsOpen={setIsModalOpen} title={modalTitle} maxWidth="max-w-[90%]">
+              <div className="flex gap-4">
+                {apiForecast.map((item, index) => (
+                  <div className="w-full flex justify-between" key={item.date + index}>
+                    {/* Weather Cards */}
+                    <CardComponent width="max-w-18%" imagePath={`https://rodrigokamada.github.io/openweathermap/images/${item.weatherCode}d_t.png`} title={item.date}>
+                      <div className="flex flex-col">
+                        <span className="text-ink-300">Min: {item.minTemperature} ºC</span>
+                        <span className="text-ink-400">Max: {item.maxTemperature} ºC</span>
+                      </div>
+                    </CardComponent>
+                  </div>
+                ))}
+              </div>
             </ModalComponent>
           </div>
         </div>
