@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import ModalComponent from "../shared/modal/page";
-import { RevolvingDot } from "react-loader-spinner";
+import { BallTriangle, RevolvingDot } from "react-loader-spinner";
 
 interface ICities {
   name: string;
@@ -17,7 +17,11 @@ interface ICities {
 }
 
 export default function Challenge003() {
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  // Loaders
+  const [isFetching, setIsFetching] = useState<boolean>(false);
+  const [isForecasting, setIsForecasting] = useState<boolean>(false);
+
+  // City Information
   const [city, setCity] = useState<string>("");
   const [apiCities, setApiCities] = useState<ICities[]>([]);
 
@@ -26,7 +30,7 @@ export default function Challenge003() {
   const [modalTitle, setModalTitle] = useState<string>("");
 
   const getCityCoordinates = (city: string) => {
-    setIsLoading(true);
+    setIsFetching(true);
 
     fetch(`api/open-meteo/coordinates/${city}`)
       .then(async (response) => {
@@ -45,10 +49,12 @@ export default function Challenge003() {
 
         setApiCities(cities);
       })
-      .finally(() => setIsLoading(false));
+      .finally(() => setIsFetching(false));
   };
 
   const getCityForecast = (cityIndex: number) => {
+    setIsForecasting(true);
+
     // Modal Information
     setModalTitle(`Forecast for ${apiCities[cityIndex].name}, ${apiCities[cityIndex].region}.`);
 
@@ -58,7 +64,10 @@ export default function Challenge003() {
         const data = await response.json();
         console.log(data);
       })
-      .finally(() => setIsModalOpen(true));
+      .finally(() => {
+        setIsModalOpen(true);
+        setIsForecasting(false);
+      });
   };
 
   return (
@@ -220,7 +229,7 @@ export default function Challenge003() {
           {/* Solution */}
           <div className="relative mb-12 rounded-lg border border-dashed border-ink-300 dark:border-ink-700 bg-white/50 dark:bg-ink-900/50 p-10 text-center">
             {/* Loader */}
-            {isLoading && (
+            {isFetching && (
               <div className="absolute inset-0 w-full h-full flex items-center justify-center backdrop-blur-sm bg-black/40 z-10">
                 <RevolvingDot
                   visible={true}
@@ -259,24 +268,39 @@ export default function Challenge003() {
               {apiCities != null && (
                 <>
                   {apiCities.map((city, index) => (
-                    <>
-                      <div
-                        key={`${city.countryCode}-${city.region}-${index}`}
-                        className="flex gap-4 w-full p-4 bg-white/10 rounded-lg hover:scale-105 transition-all duration-200 cursor-pointer"
-                        onClick={() => getCityForecast(index)}
-                      >
-                        <img src={`https://flagsapi.com/${city.countryCode}/flat/64.png`} className="rounded-[50%]" />
-                        <div className="flex flex-col items-baseline ">
-                          <span className="text-lg text-ink-200 dark:text-ink-300 -mb-1">
-                            {city.name}, {city.region}
-                          </span>
-                          <span className="text-md text-ink-300 dark:text-ink-400">{city.country}</span>
-                          <span className="text-xs text-ink-400 dark:text-ink-500">
-                            Population: {city.population === undefined ? "???" : city.population}
-                          </span>
+                    <div
+                      key={`${city.countryCode}-${city.region}-${index}`}
+                      className="relative flex gap-4 w-full p-4 bg-white/10 rounded-lg hover:scale-105 transition-all duration-200 cursor-pointer"
+                      onClick={() => getCityForecast(index)}
+                    >
+                      {/* Forecast Loader */}
+                      {isForecasting && modalTitle.includes(city.region) && (
+                        <div className="absolute inset-0 w-full h-full flex items-center justify-center backdrop-blur-sm bg-black/40 z-10 cursor-auto">
+                          <BallTriangle
+                            height={50}
+                            width={50}
+                            radius={5}
+                            color="#fff"
+                            ariaLabel="ball-triangle-loading"
+                            wrapperStyle={{}}
+                            wrapperClass=""
+                            visible={true}
+                          />
                         </div>
+                      )}
+
+                      {/* Card Content */}
+                      <img src={`https://flagsapi.com/${city.countryCode}/flat/64.png`} className="rounded-[50%]" />
+                      <div className="flex flex-col items-baseline ">
+                        <span className="text-lg text-ink-200 dark:text-ink-300 -mb-1">
+                          {city.name}, {city.region}
+                        </span>
+                        <span className="text-md text-ink-300 dark:text-ink-400">{city.country}</span>
+                        <span className="text-xs text-ink-400 dark:text-ink-500">
+                          Population: {city.population === undefined ? "???" : city.population}
+                        </span>
                       </div>
-                    </>
+                    </div>
                   ))}
                 </>
               )}

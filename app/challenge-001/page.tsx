@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { RevolvingDot } from "react-loader-spinner";
 
 interface IGitHubUser {
   avatar_url: string;
@@ -30,6 +31,7 @@ interface ISortOptions {
 }
 
 export default function Challenge001() {
+  const [isFetching, setIsFetching] = useState<boolean>(false);
   const [username, setUsername] = useState<string>("");
   const [userData, setUserData] = useState<IGitHubUser | null>(null);
   const [repos, setRepos] = useState<IGitHubRepo[]>([]);
@@ -54,6 +56,8 @@ export default function Challenge001() {
     });
 
   const handleFindUser = (username: string) => {
+    setIsFetching(true);
+
     fetch(`/api/github/user/${username}`)
       .then(async (response) => {
         const data = await response.json();
@@ -66,17 +70,21 @@ export default function Challenge001() {
         return data;
       })
       .then((data) => setUserData(data))
-      .catch(() => setUserData(null));
+      .catch(() => setUserData(null))
+      .finally(() => setIsFetching(false));
   };
 
   const handleViewRepos = () => {
+    setIsFetching(true);
+
     fetch(`/api/github/repos/${username}`)
       .then(async (response) => await response.json())
       .then((repos) => setRepos(repos))
       .catch((error) => {
         setRepos([]);
         console.error(error);
-      });
+      })
+      .finally(() => setIsFetching(false));
   };
 
   return (
@@ -216,7 +224,22 @@ export default function Challenge001() {
           </details>
 
           {/* Solution*/}
-          <div className="mb-12">
+          <div className="relative text-left mb-12 rounded-lg border border-dashed border-ink-300 dark:border-ink-700 bg-white/50 dark:bg-ink-900/50 p-10 text-center">
+            {/* Loader */}
+            {isFetching && (
+              <div className="absolute inset-0 w-full h-full flex items-center justify-center backdrop-blur-sm bg-black/40 z-10">
+                <RevolvingDot
+                  visible={true}
+                  height="80"
+                  width="80"
+                  color="#fff"
+                  ariaLabel="revolving-dot-loading"
+                  wrapperStyle={{}}
+                  wrapperClass=""
+                />
+              </div>
+            )}
+
             {/* Search Input */}
             <div className="flex gap-3 items-center mb-4">
               <input
